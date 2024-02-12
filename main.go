@@ -45,9 +45,8 @@ func main() {
 	// ファイル終端に正常に到達したか
 	// 正常にファイル末尾まで読み込まれたらerrはnilを返す
 	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "scanner.Err()")
+		fmt.Println("scanner.Err()")
 	}
-
 }
 
 // ファイルパスを文字列で組み立てる
