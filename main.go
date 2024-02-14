@@ -133,5 +133,6 @@ func main() {
 		Replace:          ",",
 	}
 
+  tfp.ReplaceText()
 	tfp.Save()
 }
