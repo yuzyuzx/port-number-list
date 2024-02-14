@@ -9,10 +9,12 @@ import (
 )
 
 const (
-	// データ保存ディレクトリ
+	// オリジナルデータ配置ディレクトリ
 	dataDir = "data"
-	// 読み込むファイル
+	// オリジナルデータ（読み込むファイル）
 	portNumberText = "port-number.txt"
+	// 新規作成ファイルの保存先ディレクトリ
+	saveDir = "save"
 	// 新規作成して書き込むファイル
 	portNumberCsv = "port-number.csv"
 )
@@ -108,6 +110,9 @@ func (t *TextFileProcessor) Save() error {
 }
 
 func main() {
+  // TODO: dirとfilenameは固定でいいかもしれない
+  // TODO:ファイルパス生成は関数化する
+	// 置換を行う元ファイルのパス
 	originalFilePath := FilePath{
 		dir:      dataDir,
 		filename: portNumberText,
@@ -117,8 +122,10 @@ func main() {
 		return
 	}
 
+	// 置換後のテキストを保存するパス
+  // TODO: 保存先ディレクトリがない場合は作成する
 	newFilePath := FilePath{
-		dir:      dataDir,
+		dir:      saveDir,
 		filename: portNumberCsv,
 	}
 	if err := newFilePath.CreateFilePath(); err != nil {
@@ -129,10 +136,11 @@ func main() {
 	tfp := TextFileProcessor{
 		OriginalFilePath: originalFilePath.filepath,
 		NewFilePath:      newFilePath.filepath,
+		AfterText:        "",
 		Target:           "\t",
 		Replace:          ",",
 	}
 
-  tfp.ReplaceText()
+	tfp.ReplaceText()
 	tfp.Save()
 }
