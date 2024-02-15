@@ -110,8 +110,6 @@ func (t *TextFileProcessor) Save() error {
 }
 
 func main() {
-  // TODO: dirとfilenameは固定でいいかもしれない
-  // TODO:ファイルパス生成は関数化する
 	// 置換を行う元ファイルのパス
 	originalFilePath := FilePath{
 		dir:      dataDir,
@@ -123,7 +121,6 @@ func main() {
 	}
 
 	// 置換後のテキストを保存するパス
-  // TODO: 保存先ディレクトリがない場合は作成する
 	newFilePath := FilePath{
 		dir:      saveDir,
 		filename: portNumberCsv,
@@ -131,6 +128,12 @@ func main() {
 	if err := newFilePath.CreateFilePath(); err != nil {
 		fmt.Println(err)
 		return
+	}
+
+	// 保存先ディレクトリが存在しなければ作成する
+	err := os.Mkdir(saveDir, 0744)
+	if err != nil && !os.IsExist(err) {
+		fmt.Println("ディレクトリの作成に失敗しました")
 	}
 
 	tfp := TextFileProcessor{
